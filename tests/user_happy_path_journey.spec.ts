@@ -22,8 +22,9 @@ test("user_journey_happy_path", async ({ page }) => {
     const basketPage = await homePage.go_to_checkout();
     await basketPage.check_basket_page_url(url_tobe_checked);
     await basketPage.remove_item_with_lowest_price();
-    await expect(basket_count).toBe(basket_count - 1);
-
+    await page.waitForTimeout(1000);
+    await expect(await homePage.get_basket_count()).toEqual(basket_count - 1);
+    
     await page.pause();
 
 }) 
