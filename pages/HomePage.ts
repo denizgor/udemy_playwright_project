@@ -1,6 +1,6 @@
 import { Page } from "@playwright/test";
 import { BaseFunctions } from "../base/base_functions.ts"
-import { CheckoutPage } from "./CheckoutPage.ts"; 
+import { BasketPage } from "./BasketPage.ts"; 
 
 
 export class HomePage extends BaseFunctions {
@@ -11,7 +11,7 @@ export class HomePage extends BaseFunctions {
     //LOCATORS
     ADD_PRODUCT_BUTTON = this.page.locator('[data-qa="product-button"]');
     CART_COUNTER = this.page.locator('[data-qa="header-basket-count"]');
-    CHECKOUT_BUTTON = this.page.locator('[data-qa="desktop-nav-link"]');
+    CHECKOUT_BUTTON = this.page.getByRole('link', { name: 'Checkout' });
     
 
     //METHODS
@@ -25,9 +25,9 @@ export class HomePage extends BaseFunctions {
 
     go_to_checkout = async () => {
         await this.click_element(this.CHECKOUT_BUTTON);
-        return new CheckoutPage(this.page);
+        return new BasketPage(this.page);
     }
     
-
+    
 
 }

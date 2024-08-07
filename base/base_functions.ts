@@ -28,4 +28,32 @@ export class BaseFunctions{
         await this.page.url().includes(url);
     }
 
+    /**
+     * Retrieves an array of prices from the elements located by the given locator.
+     *
+     * @param {Locator} locator - The locator used to find the elements containing prices.
+     * @return {Promise<number[]>} A promise that resolves with an array of prices.
+     */
+    async getPrices(locator: Locator): Promise<number[]> {
+        const priceStrings = await locator.allTextContents();
+        const prices = priceStrings.map(priceStr => {
+            return parseFloat(priceStr.replace(/[^0-9.-]+/g, ""));
+        });
+        return prices;
+    }
+
+    /**
+     * Finds the index of the minimum price in a list of prices.
+     *
+     * @param {Locator} locator - The locator used to find the elements containing prices.
+     * @return {Promise<number>} A promise that resolves with the index of the minimum price.
+     */
+    async findMinPriceIndex(locator: Locator): Promise<number> {
+        const prices = await this.getPrices(locator);
+        return prices.reduce((minIndex, price, index, array) => 
+            price < array[minIndex] ? index : minIndex, 0
+        );
+    }
+
+
 }
