@@ -1,9 +1,9 @@
 import {Page, Locator} from "@playwright/test";
 
 export class BaseFunctions{
-    page: Page;
+    page: Page
     constructor (page: Page) {
-        this.page = page;
+        this.page = page
     }
 
 /**
@@ -14,18 +14,18 @@ export class BaseFunctions{
 + * @return {Promise<void>} A promise that resolves when the element is clicked.
 + */
     click_element = async (locator: Locator, index: number = 0) => {
-        await locator.nth(index).waitFor();
-        await locator.nth(index).click();
+        await locator.nth(index).waitFor()
+        await locator.nth(index).click()
     }
 
     get_cart_count = async (locator) => {
-        await locator.waitFor();
+        await locator.waitFor()
         const text = await locator.textContent();
-        return parseInt(text, 10);
+        return parseInt(text, 10)
     }
 
     check_page_url = async (url: string) => {
-        await this.page.url().includes(url);
+        await this.page.url().includes(url)
     }
 
     /**
@@ -35,11 +35,11 @@ export class BaseFunctions{
      * @return {Promise<number[]>} A promise that resolves with an array of prices.
      */
     async getPrices(locator: Locator): Promise<number[]> {
-        const priceStrings = await locator.allTextContents();
+        const priceStrings = await locator.allTextContents()
         const prices = priceStrings.map(priceStr => {
-            return parseFloat(priceStr.replace(/[^0-9.-]+/g, ""));
+            return parseFloat(priceStr.replace(/[^0-9.-]+/g, ""))
         });
-        return prices;
+        return prices
     }
 
     /**
@@ -49,10 +49,15 @@ export class BaseFunctions{
      * @return {Promise<number>} A promise that resolves with the index of the minimum price.
      */
     async findMinPriceIndex(locator: Locator): Promise<number> {
-        const prices = await this.getPrices(locator);
+        const prices = await this.getPrices(locator)
         return prices.reduce((minIndex, price, index, array) => 
             price < array[minIndex] ? index : minIndex, 0
-        );
+        )
+    }
+
+    async input_text(locator: Locator, text: string) {
+        await locator.waitFor()
+        await locator.fill(text)
     }
 
 
