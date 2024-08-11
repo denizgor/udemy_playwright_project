@@ -1,9 +1,12 @@
 import {test, expect} from "@playwright/test"
 import {HomePage} from "../pages/HomePage.ts"
+import { userData } from "../data/userData.ts"
 
 test("user_journey_happy_path", async ({ page }) => {
 
+    // TEST VARIABLES
     const homePage = new HomePage(page)
+    const baseURL = "localhost:2221"
     const user_name = "admin"
     const password = "Admin123"
     const button_index = 1
@@ -11,14 +14,18 @@ test("user_journey_happy_path", async ({ page }) => {
     const login_page_url = "/login"
     const register_page_url = "/signup"
     const delivery_page_url = "/delivery-details"
+    const payment_page_url = "/payment"
+    const confirmation_page_url = "/thank-you"
 
-    await page.goto("localhost:2221")
+
+    await page.goto(baseURL)
 
     //TEST CASE 1
     await expect(homePage.ADD_PRODUCT_BUTTON.nth(button_index)).toHaveText("Add to Basket")
 
     await homePage.add_product_to_basket()
-    await homePage.add_product_to_basket(1)
+    await homePage.add_product_to_basket(button_index)
+    await homePage.add_product_to_basket(2)
 
     await expect(homePage.ADD_PRODUCT_BUTTON.nth(button_index)).toHaveText("Remove from Basket")
 
@@ -42,7 +49,22 @@ test("user_journey_happy_path", async ({ page }) => {
     await deliveryPage.check_delivery_page_url(delivery_page_url)
     await deliveryPage.fill_delivery_address()
     await page.waitForTimeout(1000)
-    await deliveryPage.click_continue_to_payment_button()
+
+    const PaymentPage = await deliveryPage.click_continue_to_payment_button()
+    await PaymentPage.check_payment_page_url(payment_page_url)
+    await PaymentPage.enter_card_owner(userData.card_owner)
+    await PaymentPage.enter_card_number(userData.card_number)
+    await PaymentPage.enter_card_expiry(userData.card_expiry)
+    await PaymentPage.enter_card_cvc(userData.card_cvc)
+    const discount_code = await PaymentPage.get_discount_code()
+    await PaymentPage.enter_discount_code(discount_code ?? "")
+    await page.waitForTimeout(1000)
+    await PaymentPage.apply_discount()
+    
+    const confirmationPage = await PaymentPage.click_payment_button()
+    await confirmationPage.check_confirmation_page_url(confirmation_page_url)
+    await page.goto(baseURL)
+    
 
 }) 
 
