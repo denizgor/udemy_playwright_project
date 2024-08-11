@@ -1,5 +1,6 @@
 import { BaseFunctions } from "../base/base_functions"
 import { Page } from "@playwright/test"
+import { ConfirmationPage } from "./ConfirmationPage.ts"
 
 
 export class PaymentPage extends BaseFunctions {
@@ -12,9 +13,10 @@ export class PaymentPage extends BaseFunctions {
     CARD_NUMBER_FIELD = this.page.locator('[data-qa="credit-card-number"]')
     CARD_EXPIRY_FIELD = this.page.locator('[data-qa="valid-until"]')
     CARD_CVC_FIELD = this.page.locator('[data-qa="credit-card-cvc"]')
-    PAYMENT_BUTTON = this.page.locator('[data-qa="pay-button"]')
-    DISCOUNT_CODE_FIELD = this.page.locator('[data-qa="discount-code"]')
-    SUBMIT_DISCOUNT_BUTTON = this.page.locator('[submit-discount-button]')
+    CONFIRM_PAYMENT_BUTTON = this.page.locator('[data-qa="pay-button"]')
+    DISCOUNT_CODE_FIELD = this.page.locator('[data-qa="discount-code-input"]')
+    DISCOUNT_CODE = this.page.frameLocator('[data-qa="active-discount-container"]').locator('[data-qa="discount-code"]')
+    SUBMIT_DISCOUNT_BUTTON = this.page.locator('[data-qa="submit-discount-button"]')
 
 
     //METHODS
@@ -38,6 +40,10 @@ export class PaymentPage extends BaseFunctions {
         await this.input_text(this.CARD_CVC_FIELD, card_cvc)
     }
 
+    get_discount_code = async () => {
+        return await this.DISCOUNT_CODE.textContent()
+    }
+
     enter_discount_code = async (discount_code: string) => {
         await this.input_text(this.DISCOUNT_CODE_FIELD, discount_code)
     }
@@ -47,6 +53,8 @@ export class PaymentPage extends BaseFunctions {
     }
 
     click_payment_button = async () => {
-        await this.click_element(this.PAYMENT_BUTTON)
+        await this.click_element(this.CONFIRM_PAYMENT_BUTTON)
+        return new ConfirmationPage(this.page)
     }
+
 }

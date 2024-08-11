@@ -1,9 +1,12 @@
-import {Page, Locator} from "@playwright/test";
+import {Page, Locator} from "@playwright/test"
+import ShortUniqueId from 'short-unique-id'
 
 export class BaseFunctions{
     page: Page
+    uid: ShortUniqueId
     constructor (page: Page) {
         this.page = page
+        this.uid = new ShortUniqueId({ length: 6 })
     }
 
 /**
@@ -14,7 +17,7 @@ export class BaseFunctions{
 + * @return {Promise<void>} A promise that resolves when the element is clicked.
 + */
     click_element = async (locator: Locator, index: number = 0) => {
-        await locator.nth(index).waitFor()
+        await locator.nth(index).waitFor({ state: 'visible' })
         await locator.nth(index).click()
     }
 
@@ -60,5 +63,13 @@ export class BaseFunctions{
         await locator.fill(text)
     }
 
+    async generate_random_string (type?: string) {
+        const uid = this.uid;
+        if (type === "email") {
+            return `${uid}@email.com`;
+        } else {
+            return uid;
+        }
+    }
 
 }
