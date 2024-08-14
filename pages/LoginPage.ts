@@ -14,11 +14,7 @@ export class LoginPage extends BaseFunctions {
     LOGIN_BUTTON = this.page.getByRole('button', { name: 'Login' })
     REGISTER_BUTTON = this.page.locator('[data-qa="go-to-signup-button"]')
 
-    //METHODS
-    check_login_page_url = async (url: string) => {
-        await this.check_page_url(url)
-    }
-    
+    //METHODS    
     click_register_button = async () => {
         await this.click_element(this.REGISTER_BUTTON)
         return new RegisterPage(this.page)

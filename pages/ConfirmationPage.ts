@@ -13,7 +13,8 @@ export class ConfirmationPage extends BaseFunctions {
 
 
     //METHODS
-    check_confirmation_page_url = async (url: string) => {
-        await this.check_page_url(url)
+
+    click_back_to_shopping_button = async () => {
+        await this.click_element(this.BACK_TO_SHOPPING_BUTTON)
     }
 }

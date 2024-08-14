@@ -20,10 +20,6 @@ export class PaymentPage extends BaseFunctions {
 
 
     //METHODS
-    check_payment_page_url = async (url: string) => {
-        await this.check_page_url(url)
-    }
-
     enter_card_owner = async (card_owner: string) => {
         await this.input_text(this.CARD_OWNER_FIELD, card_owner)
     }
