@@ -19,16 +19,13 @@ export class BaseFunctions{
     click_element = async (locator: Locator, index: number = 0) => {
         await locator.nth(index).waitFor({ state: 'visible' })
         await locator.nth(index).click()
+        await this.page.waitForTimeout(500)
     }
 
     get_cart_count = async (locator) => {
         await locator.waitFor()
         const text = await locator.textContent();
         return parseInt(text, 10)
-    }
-
-    check_page_url = async (url: string) => {
-        await this.page.url().includes(url)
     }
 
     /**
@@ -61,15 +58,7 @@ export class BaseFunctions{
     async input_text(locator: Locator, text: string) {
         await locator.waitFor()
         await locator.fill(text)
-    }
-
-    async generate_random_string (type?: string) {
-        const uid = this.uid;
-        if (type === "email") {
-            return `${uid}@email.com`;
-        } else {
-            return uid;
-        }
+        await this.page.waitForTimeout(500)
     }
 
 }
