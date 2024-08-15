@@ -6,7 +6,7 @@ test("user_shopping_journey_happy_path", async ({ page }) => {
 
     // TEST VARIABLES
     const homePage = new HomePage(page)
-    const baseURL = "localhost:2221"
+    const baseURL = "http://localhost:2221/"
     const card_owner = userData.first_name + " " + userData.last_name
     const button_index = 1
     const basket_page_url = /.*basket/
@@ -31,7 +31,6 @@ test("user_shopping_journey_happy_path", async ({ page }) => {
     const basketPage = await homePage.go_to_basket()
     await expect(page).toHaveURL(basket_page_url)
     await basketPage.remove_item_with_lowest_price()
-    await page.waitForTimeout(1000)
     
     await expect(await homePage.get_basket_count()).toEqual(basket_count - 1)
 
@@ -39,12 +38,10 @@ test("user_shopping_journey_happy_path", async ({ page }) => {
     await expect(page).toHaveURL(login_page_url)
     await loginPage.enter_email(userData.admin_name)
     await loginPage.enter_password(userData.admin_password)
-    await page.waitForTimeout(1000)
 
     const deliveryPage = await loginPage.click_login_button()
     await expect(page).toHaveURL(delivery_page_url)
     await deliveryPage.fill_delivery_address()
-    await page.waitForTimeout(1000)
 
     const paymentPage = await deliveryPage.click_continue_to_payment_button()
     await expect(page).toHaveURL(payment_page_url)
@@ -52,9 +49,9 @@ test("user_shopping_journey_happy_path", async ({ page }) => {
     await paymentPage.enter_card_number(userData.card_number)
     await paymentPage.enter_card_expiry(userData.card_expiry)
     await paymentPage.enter_card_cvc(userData.card_cvc)
+    
     const discount_code = await paymentPage.get_discount_code()
     await paymentPage.enter_discount_code(discount_code ?? "")
-    await page.waitForTimeout(1000)
     await paymentPage.apply_discount()
 
     const confirmationPage = await paymentPage.click_payment_button()
