@@ -1,12 +1,9 @@
 import {Page, Locator} from "@playwright/test"
-import ShortUniqueId from 'short-unique-id'
 
 export class BaseFunctions{
     page: Page
-    uid: ShortUniqueId
     constructor (page: Page) {
         this.page = page
-        this.uid = new ShortUniqueId({ length: 6 })
     }
 
 /**
@@ -21,6 +18,14 @@ export class BaseFunctions{
         await locator.nth(index).click()
         await this.page.waitForTimeout(500)
     }
+
+
+    /**
+     * Retrieves the text content of the cart count element and returns it as integer.
+     *
+     * @param {Locator} locator - The locator used to find the element.
+     * @return {Promise<number>} A promise that resolves with the text content of the element.
+     */
 
     get_cart_count = async (locator) => {
         await locator.waitFor()
@@ -55,6 +60,13 @@ export class BaseFunctions{
         )
     }
 
+    /**
+     * Enters the given text into the input field located by the given locator.
+     *
+     * @param {Locator} locator - The locator used to find the input field.
+     * @param {string} text - The text to be entered into the input field.
+     * @return {Promise<void>} A promise that resolves when the text has been entered.
+     */
     async input_text(locator: Locator, text: string) {
         await locator.waitFor()
         await locator.fill(text)

@@ -23,7 +23,7 @@ constructor(page: Page){
 
     continue_to_checkout = async () => {
         await this.click_element(this.CONTINUE_TO_CHECKOUT_BUTTON)
-        return new LoginPage(this.page), new DeliveryPage(this.page)
+        return new DeliveryPage(this.page), new LoginPage(this.page)
     }
 
 
