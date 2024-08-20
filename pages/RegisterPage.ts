@@ -29,6 +29,4 @@ export class RegisterPage extends BaseFunctions {
         return new HomePage(this.page)
     }
 
-    
-
 }

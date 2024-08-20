@@ -2,7 +2,6 @@ import { Page } from "@playwright/test";
 import { BaseFunctions } from "../base/base_functions.ts"
 import { BasketPage } from "./BasketPage.ts"
 import { LoginPage } from "./LoginPage.ts";
-import { DeliveryPage } from "./DeliveryPage.ts";
 
 
 export class HomePage extends BaseFunctions {
@@ -40,6 +39,5 @@ export class HomePage extends BaseFunctions {
     go_to_art = async () => {
         await this.click_element(this.ART_BUTTON)
     }
-
 
 }
