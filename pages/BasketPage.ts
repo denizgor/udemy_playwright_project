@@ -26,7 +26,5 @@ constructor(page: Page){
         return new DeliveryPage(this.page), new LoginPage(this.page)
     }
 
-
-
 }
 

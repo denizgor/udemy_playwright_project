@@ -34,7 +34,6 @@ test("register new user and purchase a product", async ({ page }) => {
     
     await newHomePage.go_to_art()
     await newHomePage.add_product_to_basket()
-    //await page.pause()
     const basketPage = await newHomePage.go_to_basket()
     await basketPage.continue_to_checkout()
     
@@ -58,10 +57,8 @@ test("register new user and purchase a product", async ({ page }) => {
 
     await deliveryPage.enter_country(userData.country)
     await expect(deliveryPage.COUNTRY_FIELD).toHaveValue(userData.country)
-    await page.pause()
     
     await deliveryPage.click_save_address_button()
-
     await expect((await deliveryPage.get_saved_address_texts()).firstName).
     toBe(await deliveryPage.FIRST_NAME_FIELD.inputValue())
 

@@ -32,4 +32,5 @@ export class LoginPage extends BaseFunctions {
         await this.click_element(this.LOGIN_BUTTON)
         return new DeliveryPage(this.page)
     }
+    
 }

@@ -17,4 +17,5 @@ export class ConfirmationPage extends BaseFunctions {
     click_back_to_shopping_button = async () => {
         await this.click_element(this.BACK_TO_SHOPPING_BUTTON)
     }
+    
 }
