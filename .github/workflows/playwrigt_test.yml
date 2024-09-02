@@ -1,0 +1,18 @@
+name: Playwright Tests
+on:
+    push:
+        branches: [main]
+jobs:
+    test:
+        runs-on: ubuntu-latest
+        container: 
+            image: mcr.microsoft.com/playwright:v1.46.0-jammy
+        steps:
+            - uses: actions/checkout@v2
+            - run: |
+                echo "Start the shopping store application"
+                ./shopping-store-linux-amd64 &
+                echo "Install dependencies from package-lock.json"
+                npm ci
+                echo "Run tests"
+                npm run test:ci
